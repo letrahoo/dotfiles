@@ -1,0 +1,10 @@
+[user]
+	name = letrahu
+	email = letrahu99@gmail.com
+[http]
+	proxy = http://127.0.0.1:7890
+[includeIf "gitdir:~/myProjects/"]
+  path = ~/myProjects/.gitconfig
+[includeIf "gitdir:~/work/"]
+  path = ~/work/.gitconfig
+
