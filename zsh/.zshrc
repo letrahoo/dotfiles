@@ -116,8 +116,11 @@ alias mnpm="npm --registry=http://r.npm.sankuai.com \
 dev() {
   cd  ~/work/$1
 }
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Directory tree view
+alias tv="tree -L 2 ./"
+
+# Get disk usage
+alias disk="du -h -d 1"
 
 # Get External IP / Internet Speed
 alias myip="curl https://ipinfo.io/json" # or /ip for plain-text ip
