@@ -4,9 +4,10 @@ set notagbsearch
 
 " Init variable
 if has('nvim')
-  let $VIM_DIRECTORY = "~/.config/nvim"
+  let $VIM_DIRECTORY = $HOME."/.config/nvim"
 else
-  let $VIM_DIRECTORY = "~/.vim"
+  let $VIM_DIRECTORY = $HOME."/.vim"
+endif
 
 set nobackup
 set undodir=$VIM_DIRECTORY/undodir

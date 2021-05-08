@@ -3,6 +3,8 @@
 #   rm -rf ~/.vim
 # fi
 
-cp -r ./vim ~/.vim
+mkdir -p ~/.vim
+cp -r vim/ ~/.vim
+cp -r vim/ ~/.config/nvim
 cp ./zsh/.zshrc ~/.zshrc
 
