@@ -2,14 +2,23 @@
 set nocompatible " We're running Vim not Vi!
 set notagbsearch
 
+" Init variable
+if has('nvim')
+  let $VIM_DIRECTORY = "~/.config/nvim"
+else
+  let $VIM_DIRECTORY = "~/.vim"
+
 set nobackup
-set undodir='./undodir'
+set undodir=$VIM_DIRECTORY/undodir
+
+if !isdirectory(&undodir)
+  call mkdir(&undodir, 'p', 0700)
+endif
 
 " Colors {{{
 syntax on " enable syntax processing
 set number " show line numbers
 set relativenumber " show hybrid line numbers
-set nrformats=
 set background=dark
 set termguicolors " 
 " color scheme config
@@ -37,7 +46,7 @@ set wildmenu " visual auto complete for command menu
 " set lazyredraw " redraw only when we need to.
 " set showmatch " highlight matching [{()}]
 set incsearch " search as characters are enterd
-set nohlsearch " highlight matches
+set hlsearch " highlight matches
 " turn off search highlight
 map <leader>nh :nohlsearch<CR>
 set foldenable " enable folding
