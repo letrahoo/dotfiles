@@ -1,3 +1,8 @@
-# Folder view configuration files
 .DS_Store
-Desktop.ini
+# whatever log files
+*.log
+# vim.plug plugin directory
+vim/plugged
+
+# vim history entry file
+vim/.netrwhist
