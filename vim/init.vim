@@ -2,6 +2,9 @@
 set nocompatible " We're running Vim not Vi!
 set notagbsearch
 
+set nobackup
+set undodir='./undodir'
+
 " Colors {{{
 syntax on " enable syntax processing
 set number " show line numbers
@@ -34,7 +37,7 @@ set wildmenu " visual auto complete for command menu
 " set lazyredraw " redraw only when we need to.
 " set showmatch " highlight matching [{()}]
 set incsearch " search as characters are enterd
-set hlsearch " highlight matches
+set nohlsearch " highlight matches
 " turn off search highlight
 map <leader>nh :nohlsearch<CR>
 set foldenable " enable folding
