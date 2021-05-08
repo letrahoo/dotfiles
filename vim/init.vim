@@ -81,3 +81,5 @@ nnoremap <leader>s :mksession<CR>
 let g:configFolder = fnamemodify(expand("<sfile>"), ':h:p')
 " init plugins
 execute 'source' g:configFolder.'/plug.vim'
+" load custom keymap
+execute 'source' g:configFolder.'/keymap.vim'
