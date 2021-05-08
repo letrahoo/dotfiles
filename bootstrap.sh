@@ -4,4 +4,5 @@ then
 fi
 
 cp -r ./vim ~/.vim
+cp ./zsh/.zshrc ~/.zshrc
 

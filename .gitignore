@@ -3,6 +3,7 @@
 *.log
 # vim.plug plugin directory
 vim/plugged
+vim/undodir
 
 # vim history entry file
 vim/.netrwhist
