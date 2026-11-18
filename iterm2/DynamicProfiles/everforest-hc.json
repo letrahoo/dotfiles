@@ -1,0 +1,57 @@
+{
+  "Profiles": [
+    {
+      "Name": "Everforest Dark (High Contrast)",
+      "Guid": "everforest-dark-hc-0001",
+      "Dynamic Profile Parent Name": "Everforest Dark",
+      "Use Separate Colors for Light and Dark Mode": false,
+      "Foreground Color": {
+        "Red Component": 0.8470588235294118,
+        "Green Component": 0.792156862745098,
+        "Blue Component": 0.6745098039215687,
+        "Alpha Component": 1,
+        "Color Space": "sRGB"
+      },
+      "Bold Color": {
+        "Red Component": 0.9019607843137255,
+        "Green Component": 0.7647058823529411,
+        "Blue Component": 0.5176470588235295,
+        "Alpha Component": 1,
+        "Color Space": "sRGB"
+      },
+      "Ansi 7 Color": {
+        "Red Component": 0.8470588235294118,
+        "Green Component": 0.792156862745098,
+        "Blue Component": 0.6745098039215687,
+        "Alpha Component": 1,
+        "Color Space": "sRGB"
+      },
+      "Ansi 8 Color": {
+        "Red Component": 0.5215686274509804,
+        "Green Component": 0.5725490196078431,
+        "Blue Component": 0.5372549019607843,
+        "Alpha Component": 1,
+        "Color Space": "sRGB"
+      },
+      "Ansi 12 Color": {
+        "Red Component": 0.5137254901960784,
+        "Green Component": 0.788235294117647,
+        "Blue Component": 0.5843137254901961,
+        "Alpha Component": 1,
+        "Color Space": "sRGB"
+      },
+      "Ansi 15 Color": {
+        "Red Component": 0.9019607843137255,
+        "Green Component": 0.7647058823529411,
+        "Blue Component": 0.5176470588235295,
+        "Alpha Component": 1,
+        "Color Space": "sRGB"
+      },
+      "Minimum Contrast": 0,
+      "Use Bold Color": true,
+      "Use Bright Bold": true,
+      "Brighten Bold Text": false,
+      "Faint Text Alpha": 0.75
+    }
+  ]
+}

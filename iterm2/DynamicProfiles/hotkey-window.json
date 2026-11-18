@@ -1,0 +1,60 @@
+{
+  "Profiles": [
+    {
+      "Name": "Hotkey Window (Everforest)",
+      "Guid": "everforest-hotkey-0001",
+      "Dynamic Profile Parent Name": "Everforest Dark (High Contrast)",
+
+      "Window Type": 5,
+      "Screen": -2,
+      "Space": -1,
+      "Columns": 80,
+      "Rows": 50,
+      "Width Percentage": 100,
+      "Height Percentage": -1,
+
+      "Has Hotkey": true,
+      "HotKey Key Code": 49,
+      "HotKey Characters": " ",
+      "HotKey Characters Ignoring Modifiers": " ",
+      "HotKey Modifier Flags": 131072,
+      "HotKey Modifier Activation": 0,
+      "HotKey Activated By Modifier": false,
+      "HotKey Alternate Shortcuts": [],
+      "HotKey Window AutoHides": true,
+      "HotKey Window Animates": true,
+      "HotKey Window Floats": false,
+      "HotKey Window Reopens On Activation": false,
+      "HotKey Window Dock Click Action": 2,
+
+      "Transparency": 0.3,
+      "Initial Use Transparency": true,
+      "Blur": true,
+      "Blur Radius": 2.0,
+      "Blend": 0.5,
+
+      "Triggers": [
+        {
+          "action": "iTermEnterWorkgroupTrigger",
+          "matchType": 113,
+          "parameter": "builtin.claudeCode",
+          "partial": false,
+          "eventParams": { "jobName": "claude" },
+          "contentregex": "",
+          "regex": "",
+          "disabled": false
+        },
+        {
+          "action": "iTermExitWorkgroupTrigger",
+          "matchType": 114,
+          "parameter": "",
+          "partial": false,
+          "eventParams": { "jobName": "claude", "leaderOnly": true },
+          "contentregex": "",
+          "regex": "",
+          "disabled": false
+        }
+      ]
+    }
+  ]
+}

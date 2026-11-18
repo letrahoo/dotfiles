@@ -1,6 +1,7 @@
+let g:coc_data_home = expand('~/.local/share/coc')
 " vim-plug management
 call plug#begin(g:configFolder.'/plugged')
-Plug 'kien/ctrlp.vim' " quick find file plugin
+Plug 'ctrlpvim/ctrlp.vim' " quick find file plugin
 " CtrlP settings
 
 let g:ctrlp_switch_buffer = 0
@@ -11,7 +12,9 @@ let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 Plug 'mileszs/ack.vim' " quick find content in directory plugin
 " Ack/Ag settings
 noremap <leader>a :Ack!<Space>
-if executable('ag')
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep --smart-case'
+elseif executable('ag')
   let g:ackprg = 'ag --vimgrep --nogroup --column'
 endif
 " highlight seaching keyword
@@ -26,13 +29,13 @@ let g:NERDTreeShowHidden=1
 let NERDTreeIgnore = ['^.git$']
 " t - NERDTree
 map <silent> <leader>tt :NERDTreeToggle<cr>
-map <silent> <leader>tm :NERDTreeMirrow<cr> 
+map <silent> <leader>tm :NERDTreeMirror<cr> 
 map <silent> <leader>tj :NERDTreeFind<cr> 
 map <silent> <leader>tf :NERDTreeFocus<cr>
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter', {'branch': 'main'}
 
 " Plug 'NLKNguyen/papercolor-theme' " papercolor theme
 Plug 'dracula/vim'
@@ -46,13 +49,13 @@ Plug 'leafgarland/typescript-vim'
 Plug 'ianks/vim-tsx'
 Plug 'w0rp/ale'
 let g:ale_linters = {
-			\'typescript': ['tslint']
+			\'typescript': ['eslint']
       \}
 let g:ale_fixers = {
       \'javascript': [
 			\	'prettier'
 			\],
-      \'typescript': ['tslint', 'prettier'],
+      \'typescript': ['eslint', 'prettier'],
 			\'json': ['prettier'],
 			\'json5': ['prettier'],
       \'css': ['stylelint', 'prettier'],
@@ -78,7 +81,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " wakatime data tracing
-Plug 'wakatime/vim-wakatime'
+" WakaTime disabled until explicitly configured
 call plug#end()
 
-colorscheme dracula
+silent! colorscheme dracula
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver']
