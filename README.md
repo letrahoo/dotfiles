@@ -1,6 +1,8 @@
 # Letra's dotfiles
 
-个人 macOS 终端、Shell（Zsh）与 Vim/Neovim 核心配置仓库，采用定制的 **Everforest Dark（暖金 + 森林绿高亮层次版）** 作为全局主视觉主题。
+个人 macOS 终端、Shell（Zsh / Oh My Zsh）与 Vim/Neovim 核心配置仓库，采用定制的 **Everforest Dark（暖金 + 森林绿高亮层次版）** 作为全局主视觉主题，并通过**软链接（Symlink）**与本机配置实时同步。
+
+- **本机常驻路径**：`~/personal/dotfiles`
 
 ---
 
@@ -51,28 +53,30 @@ Everforest Dark (everforest-dark.json)
 
 ---
 
-## 3. Zsh 配置 (`zsh/.zshrc`)
+## 3. Zsh 与 Oh My Zsh 配置 (`zsh/`)
 
 - **提示符**：`oh-my-zsh` + `agnoster` 高对比度定制色块，隐藏本机冗余 `user@hostname`。
-- **Everforest TrueColor 语法高亮 (`zsh-syntax-highlighting`)**：
-  - 命令/别名/内建函数：`#a7c080`（森林绿加粗）
-  - 字符串：`#dbbc7f`（暖黄）
-  - 参数选项 (`-l` / `--help`)：`#83c092`（青绿）
-  - 路径与变量：`#7fbbb3`（青蓝）
-  - 分隔符与重定向：`#e69875`（暖橙加粗）
-  - 错误命令：`#e67e80`（珊瑚红加粗）
-- **自动补全建议 (`zsh-autosuggestions`)**：`fg=#859289`（与终端 `Ansi 8` 苔藓灰绿保持一致）。
+- **外部插件（由 `bootstrap.sh` 自动检测拉取）**：
+  - `zsh-users/zsh-syntax-highlighting`（Everforest TrueColor 语法高亮）
+  - `zsh-users/zsh-autosuggestions`（`fg=#859289` 苔藓灰绿自动补全建议）
 - **本地私有配置隔离**：工作环境特有的别名或内网环境变量存放于 `~/.zshrc.local`（由 `.zshrc` 自动加载，不进公开仓库）。
 
 ---
 
-## 4. 快速安装 / 同步
+## 4. 新 Mac 一键初始化 & 日常软链同步
 
 ```bash
+git clone git@github.com:letrahoo/dotfiles.git ~/personal/dotfiles
+cd ~/personal/dotfiles
+
+# 1. 安装 Homebrew 基础工具与 MapleMono-NF-CN 终端字体（幂等跳过已安装项）
+./brew.sh
+
+# 2. 自动安装 Oh My Zsh + 插件，并将配置以软链接（ln -sfn）挂载到本机对应路径
 ./bootstrap.sh
 ```
 
-执行后会自动同步：
-1. `vim/` ➔ `~/.vim` 与 `~/.config/nvim`
-2. `zsh/.zshrc` ➔ `~/.zshrc`
-3. `iterm2/DynamicProfiles/*.json` ➔ `~/Library/Application Support/iTerm2/DynamicProfiles/` 并写入 iTerm2 Minimal 外观偏好。
+`./bootstrap.sh` 建立的软链接映射：
+1. `zsh/.zshrc` ➔ `~/.zshrc`，`zsh/.zprofile` ➔ `~/.zprofile`
+2. `vim/*` ➔ `~/.config/nvim/*` 与 `~/.vim/*`（完整保留本机已安装的 `plugged/` 插件目录与 `undodir/` 撤销历史），`vim/vimrc` ➔ `~/.vimrc`
+3. `iterm2/DynamicProfiles/*.json` ➔ `~/Library/Application Support/iTerm2/DynamicProfiles/*.json`，并写入 iTerm2 Minimal 外观偏好。
