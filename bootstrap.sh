@@ -53,9 +53,12 @@ for target_dir in "$HOME/.config/nvim" "$HOME/.vim"; do
 done
 link_path "$REPO_DIR/vim/vimrc" "$HOME/.vimrc"
 
-# 3. Zsh (symlink .zshrc & .zprofile; keep local ~/.zshrc.local untouched)
+# 3. Zsh & Tmux (symlink .zshrc, .zprofile, .tmux.conf; keep local ~/.zshrc.local untouched)
 link_path "$REPO_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_path "$REPO_DIR/zsh/.zprofile" "$HOME/.zprofile"
+if [[ -f "$REPO_DIR/tmux/.tmux.conf" ]]; then
+  link_path "$REPO_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
+fi
 if [[ -f "$HOME/.zshrc.local" ]]; then
   echo "✓ Preserved untracked local overrides at ~/.zshrc.local"
 fi

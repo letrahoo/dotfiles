@@ -130,24 +130,38 @@ export NVM_DIR="$HOME/.nvm"
 
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 [[ -f /opt/homebrew/etc/profile.d/autojump.sh ]] && source /opt/homebrew/etc/profile.d/autojump.sh
+[[ -f /usr/share/autojump/autojump.zsh ]] && source /usr/share/autojump/autojump.zsh
 
 export npm_config_cache="$HOME/.cache/npm"
 
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  ":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
+# fnm (Fast Node Manager, if installed)
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
 
-# Java & Android SDK
-export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
-export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
-export ANDROID_SDK_ROOT="$ANDROID_HOME"
-export PATH="$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/37.0.0:$ANDROID_HOME/platform-tools:$PATH"
+# pnpm (macOS & Linux)
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
+if [[ -d "$PNPM_HOME" ]]; then
+  [[ -d "$PNPM_HOME/bin" ]] && path=("$PNPM_HOME/bin" $path)
+  path=("$PNPM_HOME" $path)
+fi
 
-# Added by Antigravity CLI installer
+# macOS Homebrew Java & Android SDK
+if [[ "$OSTYPE" == darwin* ]]; then
+  [[ -d "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home" ]] && \
+    export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+  if [[ -d "/opt/homebrew/share/android-commandlinetools" ]]; then
+    export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+    export ANDROID_SDK_ROOT="$ANDROID_HOME"
+    export PATH="${JAVA_HOME:+$JAVA_HOME/bin:}$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/37.0.0:$ANDROID_HOME/platform-tools:$PATH"
+  fi
+fi
+
+# User local binaries
 export PATH="$HOME/.local/bin:$PATH"
 
 # Load local/work overrides (untracked in public dotfiles)

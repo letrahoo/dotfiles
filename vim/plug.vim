@@ -37,8 +37,8 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter', {'branch': 'main'}
 
-" Plug 'NLKNguyen/papercolor-theme' " papercolor theme
-Plug 'dracula/vim'
+" Theme: Everforest Dark Medium (aligned with terminal palette)
+Plug 'sainnhe/everforest'
 
 " language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -75,7 +75,7 @@ let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 " let g:airline_section_b = '%{strftime("%H:%M")}'
-let g:airline_theme='fruit_punch'
+let g:airline_theme='everforest'
 
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -84,5 +84,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " WakaTime disabled until explicitly configured
 call plug#end()
 
-silent! colorscheme dracula
+let g:everforest_background = 'medium'
+let g:everforest_better_performance = 1
+silent! colorscheme everforest
 let g:coc_global_extensions = ['coc-json', 'coc-tsserver']
