@@ -29,7 +29,7 @@
 
       "Transparency": 0.3,
       "Initial Use Transparency": true,
-      "Blur": true,
+      "Blur": false,
       "Blur Radius": 2.0,
       "Blend": 0.5,
 
