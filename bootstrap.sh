@@ -59,11 +59,14 @@ link_path "$REPO_DIR/zsh/.zprofile" "$HOME/.zprofile"
 if [[ -f "$REPO_DIR/tmux/.tmux.conf" ]]; then
   link_path "$REPO_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 fi
+if [[ -f "$REPO_DIR/tmux/tmux-server.sh" ]]; then
+  link_path "$REPO_DIR/tmux/tmux-server.sh" "$HOME/.local/bin/tmux-server"
+fi
 if [[ -f "$HOME/.zshrc.local" ]]; then
   echo "✓ Preserved untracked local overrides at ~/.zshrc.local"
 fi
 
-# 4. iTerm2 Dynamic Profiles & Minimal Appearance (macOS)
+# 4. iTerm2 Dynamic Profiles, Tmux LaunchAgent & Minimal Appearance (macOS)
 if [[ "$(uname -s)" == "Darwin" ]]; then
   ITERM_DYN_DIR="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
   mkdir -p "$ITERM_DYN_DIR"
@@ -71,6 +74,18 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   for profile in "$REPO_DIR"/iterm2/DynamicProfiles/*.json; do
     link_path "$profile" "$ITERM_DYN_DIR/$(basename "$profile")"
   done
+
+  if [[ -f "$REPO_DIR/tmux/com.user.tmux.plist" ]]; then
+    TMUX_PLIST="$HOME/Library/LaunchAgents/com.user.tmux.plist"
+    link_path "$REPO_DIR/tmux/com.user.tmux.plist" "$TMUX_PLIST"
+    GUI_DOMAIN="gui/$(id -u)"
+    if launchctl print "$GUI_DOMAIN/com.user.tmux" >/dev/null 2>&1; then
+      echo "✓ com.user.tmux LaunchAgent already running (existing tmux sessions preserved)"
+    else
+      launchctl bootstrap "$GUI_DOMAIN" "$TMUX_PLIST"
+      echo "✓ Bootstrapped com.user.tmux LaunchAgent ($GUI_DOMAIN)"
+    fi
+  fi
 
   # Set Everforest Dark (High Contrast) as default profile & Minimal tab bar theme
   defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "everforest-dark-hc-0001"

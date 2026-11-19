@@ -63,7 +63,36 @@ Everforest Dark (everforest-dark.json)
 
 ---
 
-## 4. 新 Mac 一键初始化 & 日常软链同步
+## 4. Tmux 独立守护架构与配置 (`tmux/`)
+
+为解决 macOS 上在 iTerm2 内首次拉起 `tmux` 时，`tmux: server` 归属于 iTerm2 的 `launchd` Application Coalition（导致强杀/崩溃 iTerm2 时 `tmux: server` 被系统连坐发送 `SIGKILL` 清场）的问题，采用 **`LaunchAgent` 独立托管架构**，使 `tmux` 与 iTerm2 成为完全平级的系统进程。
+
+### 前置要求
+- **系统环境**：macOS `launchd` 用户桌面域（`Aqua` 会话，保留 `pbcopy`/`pbpaste` 剪贴板、Keychain 与 `SSH_AUTH_SOCK` 访问权限）
+- **软件包依赖**：`tmux >= 3.2`（依赖原生的 `-D` 前台非 daemon 模式，配合 `set -s exit-empty off` 与 `KeepAlive` 实现常驻保活，由 `./brew.sh` 自动安装）
+
+### 零硬编码与环境变量动态解析
+由于 `launchd` 原生 XML 不展开 `$HOME` 等变量，采用 **双 `exec` 原地替换链路** 彻底消除用户名与芯片架构绝对路径硬编码，跨 Apple Silicon / Intel Mac 开箱复用：
+
+```text
+launchd (com.user.tmux, ProcessType=Interactive)
+  └─ /bin/sh -c 'HOME="${HOME:-$(echo ~)}"; export HOME; exec "$HOME/.local/bin/tmux-server"'
+       └─ tmux-server.sh (动态探测 Homebrew/本地 PATH，最终 exec tmux -D 无多余父进程残留)
+```
+
+可通过可选的 `~/.config/tmux/env`（不入公开仓库）注入环境变量覆盖默认行为：
+- `TMUX_BIN`：指定自定义的 `tmux` 二进制路径（默认通过 `command -v tmux` 动态查找）
+- `TMUX_LOG_DIR` / `TMUX_LOG_FILE`：自定义守护日志路径（默认 `$HOME/Library/Logs/tmux-server.log`）
+
+### 常用状态检查命令
+```bash
+# 查看独立守护服务运行状态、PID 及独立 Coalition 归属
+launchctl print "gui/$(id -u)/com.user.tmux"
+```
+
+---
+
+## 5. 新 Mac 一键初始化 & 日常软链同步
 
 ```bash
 git clone git@github.com:letrahoo/dotfiles.git ~/personal/dotfiles
@@ -72,11 +101,12 @@ cd ~/personal/dotfiles
 # 1. 安装 Homebrew 基础工具与 MapleMono-NF-CN 终端字体（幂等跳过已安装项）
 ./brew.sh
 
-# 2. 自动安装 Oh My Zsh + 插件，并将配置以软链接（ln -sfn）挂载到本机对应路径
+# 2. 自动安装 Oh My Zsh + 插件，将配置以软链接（ln -sfn）挂载到本机，并注册 Tmux 独立守护服务
 ./bootstrap.sh
 ```
 
 `./bootstrap.sh` 建立的软链接映射：
 1. `zsh/.zshrc` ➔ `~/.zshrc`，`zsh/.zprofile` ➔ `~/.zprofile`
-2. `vim/*` ➔ `~/.config/nvim/*` 与 `~/.vim/*`（完整保留本机已安装的 `plugged/` 插件目录与 `undodir/` 撤销历史），`vim/vimrc` ➔ `~/.vimrc`
-3. `iterm2/DynamicProfiles/*.json` ➔ `~/Library/Application Support/iTerm2/DynamicProfiles/*.json`，并写入 iTerm2 Minimal 外观偏好。
+2. `tmux/.tmux.conf` ➔ `~/.tmux.conf`，`tmux/tmux-server.sh` ➔ `~/.local/bin/tmux-server`，`tmux/com.user.tmux.plist` ➔ `~/Library/LaunchAgents/com.user.tmux.plist`
+3. `vim/*` ➔ `~/.config/nvim/*` 与 `~/.vim/*`（完整保留本机已安装的 `plugged/` 插件目录与 `undodir/` 撤销历史），`vim/vimrc` ➔ `~/.vimrc`
+4. `iterm2/DynamicProfiles/*.json` ➔ `~/Library/Application Support/iTerm2/DynamicProfiles/*.json`，`iterm2/open-in-goland.sh` ➔ `~/.local/bin/open-in-goland`，并写入 iTerm2 Minimal 外观偏好。
