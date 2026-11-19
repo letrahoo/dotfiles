@@ -28,7 +28,7 @@ for pkg in "${FORMULAE[@]}"; do
     echo "✓ ripgrep (rg) already available"
   else
     echo "Installing $pkg..."
-    brew install "$pkg"
+    brew install --yes "$pkg"
   fi
 done
 
@@ -37,7 +37,7 @@ if brew list --cask font-maple-mono-nf-cn >/dev/null 2>&1; then
   echo "✓ font-maple-mono-nf-cn already installed"
 else
   echo "Installing font-maple-mono-nf-cn..."
-  brew install --cask font-maple-mono-nf-cn
+  brew install --yes --cask font-maple-mono-nf-cn
 fi
 
 # iTerm2 (skip if already installed in /Applications)
@@ -45,7 +45,7 @@ if [[ -d "/Applications/iTerm.app" ]] || brew list --cask iterm2 >/dev/null 2>&1
   echo "✓ iTerm2 already installed"
 else
   echo "Installing iTerm2..."
-  brew install --cask iterm2
+  brew install --yes --cask iterm2
 fi
 
 brew cleanup
