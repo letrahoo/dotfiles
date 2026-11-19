@@ -3,13 +3,14 @@
     {
       "Name": "Hotkey Window (Everforest)",
       "Guid": "everforest-hotkey-0001",
-      "Dynamic Profile Parent Name": "Everforest Dark (High Contrast)",
+      "Dynamic Profile Parent Name": "Everforest Medium",
+      "Show Status Bar": false,
 
       "Window Type": 5,
       "Screen": -2,
       "Space": -1,
       "Columns": 80,
-      "Rows": 50,
+      "Rows": 40,
       "Width Percentage": 100,
       "Height Percentage": -1,
 
@@ -25,7 +26,7 @@
       "HotKey Window Animates": true,
       "HotKey Window Floats": false,
       "HotKey Window Reopens On Activation": false,
-      "HotKey Window Dock Click Action": 2,
+      "HotKey Window Dock Click Action": 1,
 
       "Transparency": 0.0,
       "Initial Use Transparency": false,
