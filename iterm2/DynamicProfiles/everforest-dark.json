@@ -582,7 +582,11 @@
         "Alpha Component": 1,
         "Color Space": "sRGB"
       },
-      "Use Separate Colors for Light and Dark Mode": false
+      "Use Separate Colors for Light and Dark Mode": false,
+      "Semantic History": {
+        "action": "raw command",
+        "text": "\"$HOME/.local/bin/open-in-goland\" '\\1' '\\2' '\\5'"
+      }
     }
   ]
 }

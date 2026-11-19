@@ -67,6 +67,7 @@ fi
 if [[ "$(uname -s)" == "Darwin" ]]; then
   ITERM_DYN_DIR="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
   mkdir -p "$ITERM_DYN_DIR"
+  link_path "$REPO_DIR/iterm2/open-in-goland.sh" "$HOME/.local/bin/open-in-goland"
   for profile in "$REPO_DIR"/iterm2/DynamicProfiles/*.json; do
     link_path "$profile" "$ITERM_DYN_DIR/$(basename "$profile")"
   done
