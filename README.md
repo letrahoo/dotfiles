@@ -36,17 +36,19 @@
 
 ---
 
-## 2. iTerm2 三层动态配置架构 (`iterm2/DynamicProfiles/`)
+## 2. iTerm2 普通窗口与热键窗口
 
-采用 iTerm2 的 **Dynamic Profiles** JSON 继承机制，实现「一处修改，全局窗口与热键窗口自动同步」：
+- `Everforest Medium`：用户在 iTerm2 中维护的普通 Profile。新机器上请先准备这个父 Profile；bootstrap 不创建普通 Profile，也不更改默认 Profile。
+- `Hotkey Window (Everforest)`：唯一由 bootstrap 安装的动态 Profile。`⇧Space` 唤起专用窗口，贴底满宽、40 行、不透明、关闭状态栏。旧 Dark / High Contrast JSON 只是模板，不再自动加载。
 
-```text
-Everforest Dark (everforest-dark.json)
-  ├─ 负责：基础 16 色调色板、MapleMono 16pt 字体、1.15 行高
-  └─ 派生 ➔ Everforest Dark (High Contrast) (everforest-hc.json) [默认 Profile]
-              ├─ 负责：#d8caac 暖麦正文、#e6c384 暖金加粗高亮、#83c995 翠绿标签、#859289 灰绿过程字
-              └─ 派生 ➔ Hotkey Window (Everforest) (hotkey-window.json)
-                          └─ 负责：⇧Space 全局唤出、贴底满宽窗口、30% 透明度 + 毛玻璃模糊
+**可选：让冷启动和快捷键复用同一窗口。** 在 iTerm2 的 Settings → General → Startup 选择 “Only Restore Hotkey Window”。从仓库根目录执行以下命令安装启动脚本；如果已有 `AutoLaunch.scpt`，保留原文件，手动整合 [reveal-hotkey.applescript](iterm2/reveal-hotkey.applescript) 的逻辑：
+
+```bash
+scripts="$HOME/Library/Application Support/iTerm2/Scripts"
+mkdir -p "$scripts"
+if [[ ! -e "$scripts/AutoLaunch.scpt" && ! -L "$scripts/AutoLaunch.scpt" ]]; then
+  osacompile -o "$scripts/AutoLaunch.scpt" iterm2/reveal-hotkey.applescript
+fi
 ```
 
 - **顶部 Tab 栏美化**：使用 `Minimal` 主题，隐藏 Tab 编号与关闭按钮，Tab 自动铺满整行，与 `#2d353b` / `#343f44` 背景无缝融合。
@@ -109,4 +111,4 @@ cd ~/personal/dotfiles
 1. `zsh/.zshrc` ➔ `~/.zshrc`，`zsh/.zprofile` ➔ `~/.zprofile`
 2. `tmux/.tmux.conf` ➔ `~/.tmux.conf`，`tmux/tmux-server.sh` ➔ `~/.local/bin/tmux-server`，`tmux/com.user.tmux.plist` ➔ `~/Library/LaunchAgents/com.user.tmux.plist`
 3. `vim/*` ➔ `~/.config/nvim/*` 与 `~/.vim/*`（完整保留本机已安装的 `plugged/` 插件目录与 `undodir/` 撤销历史），`vim/vimrc` ➔ `~/.vimrc`
-4. `iterm2/DynamicProfiles/*.json` ➔ `~/Library/Application Support/iTerm2/DynamicProfiles/*.json`，`iterm2/open-in-goland.sh` ➔ `~/.local/bin/open-in-goland`，并写入 iTerm2 Minimal 外观偏好。
+4. 仅将 `iterm2/DynamicProfiles/hotkey-window.json` 链接到 iTerm2 的 `DynamicProfiles/`，保留用户自建 Profile；将 `iterm2/open-in-goland.sh` 链接到 `~/.local/bin/open-in-goland`，并写入 Minimal 外观偏好。

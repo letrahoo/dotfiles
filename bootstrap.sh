@@ -71,9 +71,19 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   ITERM_DYN_DIR="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
   mkdir -p "$ITERM_DYN_DIR"
   link_path "$REPO_DIR/iterm2/open-in-goland.sh" "$HOME/.local/bin/open-in-goland"
-  for profile in "$REPO_DIR"/iterm2/DynamicProfiles/*.json; do
-    link_path "$profile" "$ITERM_DYN_DIR/$(basename "$profile")"
+  # The ordinary profile is user-managed. Only install the dedicated hotkey profile.
+  # Unlink the two retired templates only if this bootstrap installed them.
+  for name in everforest-dark.json everforest-hc.json; do
+    legacy="$ITERM_DYN_DIR/$name"
+    if [[ -L "$legacy" && "$(readlink "$legacy")" == "$REPO_DIR/iterm2/DynamicProfiles/$name" ]]; then
+      unlink "$legacy"
+    fi
   done
+
+  hotkey_path="$ITERM_DYN_DIR/hotkey-window.json"
+  if [[ ! -e "$hotkey_path" && ! -L "$hotkey_path" ]]; then
+    ln -s "$REPO_DIR/iterm2/DynamicProfiles/hotkey-window.json" "$hotkey_path"
+  fi
 
   if [[ -f "$REPO_DIR/tmux/com.user.tmux.plist" ]]; then
     TMUX_PLIST="$HOME/Library/LaunchAgents/com.user.tmux.plist"
@@ -87,8 +97,7 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     fi
   fi
 
-  # Set Everforest Dark (High Contrast) as default profile & Minimal tab bar theme
-  defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "everforest-dark-hc-0001"
+  # Leave the user's default profile alone; only set tab-bar appearance.
   defaults write com.googlecode.iterm2 TabStyleWithAutomaticOption -int 5
   defaults write com.googlecode.iterm2 HideTabNumber -bool true
   defaults write com.googlecode.iterm2 HideTabCloseButton -bool true
