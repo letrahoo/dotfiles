@@ -27,8 +27,8 @@
       "HotKey Window Reopens On Activation": false,
       "HotKey Window Dock Click Action": 2,
 
-      "Transparency": 0.3,
-      "Initial Use Transparency": true,
+      "Transparency": 0.0,
+      "Initial Use Transparency": false,
       "Blur": false,
       "Blur Radius": 2.0,
       "Blend": 0.5,
