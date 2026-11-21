@@ -49,4 +49,4 @@ tmux new-session -A -s work
 - [zsh/](zsh/)：Agnoster 提示符、语法高亮和自动建议。
 - [vim/](vim/)：Vim 和 Neovim 共用的编辑器配置。
 - [tmux/](tmux/)：快捷键、状态栏和 macOS LaunchAgent。
-- [iterm2/](iterm2/)：热键窗口配置、启动脚本和 GoLand 文件跳转。
+- [iterm2/](iterm2/)：热键窗口配置、启动脚本和 GoLand / VS Code 文件跳转。
